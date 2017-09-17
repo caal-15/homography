@@ -1,6 +1,4 @@
 import numpy as np
-import cv2
-import os
 from math import floor
 
 
@@ -66,8 +64,7 @@ def interpolated_approximation(i, j, from_image):
             return None
 
 
-def transplane_image(from_image, to_image, homography, outpath,
-                     interpolate=False):
+def transplane_image(from_image, to_image, homography, interpolate=False):
     to_height, to_width, to_channels = to_image.shape
     from_height, from_width, from_channels = from_image.shape
     for i in range(0, to_width):
@@ -81,15 +78,4 @@ def transplane_image(from_image, to_image, homography, outpath,
                     trans_point[0], trans_point[1], from_image)
             if new_point is not None:
                 to_image[j][i] = new_point
-    cv2.imwrite(outpath, to_image)
-
-
-x = [(514, 252), (714, 252), (514, 402), (714, 402)]
-x_new = [(514, 252), (739, 229), (523, 458), (747, 485)]
-
-H = compute_homography(x, x_new)
-from_image = cv2.imread(os.path.dirname(__file__).join('picture.jpg'))
-to_image = np.zeros((from_image.shape[0], from_image.shape[1], 3), np.uint8)
-
-transplane_image(from_image, to_image, H, 'transplaned.png')
-transplane_image(from_image, to_image, H, 'transplaned_interpol.png', True)
+    return to_image
