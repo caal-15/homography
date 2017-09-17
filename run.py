@@ -19,6 +19,17 @@ if __name__ == '__main__':
         'transplaned_interpoplated.png',
         transplane_image(original_image, corrected_image, H, True))
 
+    x = [(0, 0), (773, 0), (0, 1000), (773, 1000)]
+    x_new = [(156, 656), (2072, 656), (156, 3176), (2072, 3176)]
+    H = compute_homography(x, x_new)
+
+    paper_image = cv2.imread(os.path.dirname(__file__).join('paper.jpg'))
+    scanned_paper = np.zeros((1000, 773, 3), np.uint8)
+
+    cv2.imwrite(
+        'scanned_paper.png',
+        transplane_image(paper_image, scanned_paper, H, True))
+
     x = [(535, 275), (712, 262), (542, 435), (722, 452)]
     x_new = [(0, 0), (546, 0), (0, 489), (546, 489)]
     H = compute_homography(x, x_new)
