@@ -36,7 +36,7 @@ def rounded_approximation(i, j, from_image):
     if cond_1 and cond_2:
         return from_image[new_j][new_i]
     else:
-        return [0, 0, 0]
+        return None
 
 
 def interpolated_approximation(i, j, from_image):
@@ -63,8 +63,7 @@ def interpolated_approximation(i, j, from_image):
                 new_pixel.append(int(term_1 * vec_1.dot(mat).dot(vec_2)[0]))
             return new_pixel
         else:
-            return [0, 0, 0]
-
+            return None
 
 
 def transplane_image(from_image, to_image, homography, outpath,
@@ -75,11 +74,13 @@ def transplane_image(from_image, to_image, homography, outpath,
         for j in range(0, to_height):
             trans_point = transplane_point(np.array([i, j, 1]), homography)
             if interpolate:
-                to_image[j][i] = interpolated_approximation(
+                new_point = interpolated_approximation(
                     trans_point[0], trans_point[1], from_image)
             else:
-                to_image[j][i] = rounded_approximation(
+                new_point = rounded_approximation(
                     trans_point[0], trans_point[1], from_image)
+            if new_point is not None:
+                to_image[j][i] = new_point
     cv2.imwrite(outpath, to_image)
 
 
