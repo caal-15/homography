@@ -24,7 +24,7 @@ if __name__ == '__main__':
     # Transplane image to remove projectivity and write to file
     # (with interpolation)
     cv2.imwrite(
-        'transplaned_interpoplated.png',
+        'transplaned_interpolated.png',
         transplane_image(original_image, corrected_image, H, True))
 
     # Correspondences between picture of paper, and scanner simulated one
